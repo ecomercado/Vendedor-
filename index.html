@@ -1,0 +1,1914 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>TecnoShop - Panel de Vendedores</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #4361ee;
+            --secondary-color: #3f37c9;
+            --accent-color: #4895ef;
+            --danger-color: #f72585;
+            --success-color: #4cc9f0;
+            --warning-color: #f8961e;
+            --light-color: #f8f9fa;
+            --dark-color: #212529;
+            --gray-color: #6c757d;
+            --border-radius: 8px;
+            --box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            --transition: all 0.3s ease;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        body {
+            background-color: #f5f7fa;
+            color: var(--dark-color);
+            min-height: 100vh;
+            line-height: 1.6;
+        }
+
+        /* Estilos para las páginas de autenticación */
+        .auth-container {
+            display: flex;
+            min-height: 100vh;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+        }
+
+        .auth-card {
+            background-color: white;
+            border-radius: var(--border-radius);
+            box-shadow: var(--box-shadow);
+            width: 100%;
+            max-width: 450px;
+            overflow: hidden;
+            transition: var(--transition);
+        }
+
+        .auth-header {
+            background-color: var(--primary-color);
+            color: white;
+            padding: 20px;
+            text-align: center;
+        }
+
+        .auth-header h1 {
+            font-size: 1.8rem;
+            margin-bottom: 5px;
+        }
+
+        .auth-header p {
+            opacity: 0.8;
+            font-size: 0.9rem;
+        }
+
+        .auth-body {
+            padding: 30px;
+        }
+
+        .auth-footer {
+            padding: 15px 30px;
+            text-align: center;
+            background-color: #f8f9fa;
+            border-top: 1px solid #eee;
+        }
+
+        .auth-footer a {
+            color: var(--primary-color);
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        .auth-footer a:hover {
+            text-decoration: underline;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+            color: var(--dark-color);
+            font-size: 0.95rem;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 12px 15px;
+            border: 1px solid #ddd;
+            border-radius: var(--border-radius);
+            font-size: 1rem;
+            transition: var(--transition);
+        }
+
+        .form-control:focus {
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 3px rgba(67, 97, 238, 0.2);
+            outline: none;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 12px 20px;
+            border: none;
+            border-radius: var(--border-radius);
+            font-size: 1rem;
+            font-weight: 500;
+            cursor: pointer;
+            text-align: center;
+            transition: var(--transition);
+        }
+
+        .btn-block {
+            display: block;
+            width: 100%;
+        }
+
+        .btn-primary {
+            background-color: var(--primary-color);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background-color: var(--secondary-color);
+        }
+
+        .btn-google {
+            background-color: #4285f4;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .btn-google:hover {
+            background-color: #357ae8;
+        }
+
+        .btn-link {
+            background: none;
+            color: var(--primary-color);
+            padding: 0;
+            text-decoration: underline;
+        }
+
+        .divider {
+            display: flex;
+            align-items: center;
+            margin: 20px 0;
+            color: var(--gray-color);
+            font-size: 0.9rem;
+        }
+
+        .divider::before, .divider::after {
+            content: "";
+            flex: 1;
+            border-bottom: 1px solid #ddd;
+        }
+
+        .divider::before {
+            margin-right: 10px;
+        }
+
+        .divider::after {
+            margin-left: 10px;
+        }
+
+        .alert {
+            padding: 12px 15px;
+            border-radius: var(--border-radius);
+            margin-bottom: 20px;
+            font-size: 0.9rem;
+        }
+
+        .alert-danger {
+            background-color: rgba(247, 37, 133, 0.1);
+            color: var(--danger-color);
+            border: 1px solid rgba(247, 37, 133, 0.2);
+        }
+
+        .alert-success {
+            background-color: rgba(76, 201, 240, 0.1);
+            color: var(--success-color);
+            border: 1px solid rgba(76, 201, 240, 0.2);
+        }
+
+        .hidden {
+            display: none !important;
+        }
+
+        /* Estilos para el panel de administración */
+        .admin-container {
+            max-width: 100%;
+            margin: 0 auto;
+            padding: 15px;
+            display: none;
+        }
+
+        .admin-container header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid #ddd;
+        }
+
+        .admin-container h1 {
+            color: var(--primary-color);
+            font-size: 1.5rem;
+        }
+
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .user-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background-color: var(--primary-color);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            text-transform: uppercase;
+        }
+
+        #logout-btn {
+            background-color: var(--danger-color);
+            color: white;
+            border: none;
+            padding: 8px 15px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            transition: var(--transition);
+        }
+
+        #logout-btn:hover {
+            background-color: #d91a6d;
+        }
+
+        .admin-content {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        @media (min-width: 768px) {
+            .admin-content {
+                display: grid;
+                grid-template-columns: 1fr 2fr;
+                gap: 30px;
+            }
+        }
+
+        .admin-form {
+            background-color: white;
+            padding: 20px;
+            border-radius: var(--border-radius);
+            box-shadow: var(--box-shadow);
+        }
+
+        .admin-form h2 {
+            color: var(--primary-color);
+            margin-bottom: 15px;
+            font-size: 1.2rem;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: 500;
+            color: #555;
+            font-size: 0.9rem;
+        }
+
+        .form-group input,
+        .form-group textarea,
+        .form-group select {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: var(--border-radius);
+            font-size: 14px;
+            transition: var(--transition);
+        }
+
+        .form-group input:focus,
+        .form-group textarea:focus,
+        .form-group select:focus {
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 3px rgba(67, 97, 238, 0.2);
+            outline: none;
+        }
+
+        .form-group textarea {
+            resize: vertical;
+            min-height: 100px;
+        }
+
+        .form-row {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        @media (min-width: 480px) {
+            .form-row {
+                flex-direction: row;
+            }
+        }
+
+        .form-row .form-group {
+            flex: 1;
+        }
+
+        #add-product-btn, #update-product-btn {
+            width: 100%;
+            padding: 12px;
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            border-radius: var(--border-radius);
+            font-size: 16px;
+            cursor: pointer;
+            margin-top: 10px;
+            transition: var(--transition);
+        }
+
+        #add-product-btn:hover, #update-product-btn:hover {
+            background-color: var(--secondary-color);
+        }
+
+        #update-product-btn {
+            background-color: var(--accent-color);
+            display: none;
+        }
+
+        #update-product-btn:hover {
+            background-color: #3a7bc8;
+        }
+
+        #cancel-edit-btn {
+            width: 100%;
+            padding: 12px;
+            background-color: var(--danger-color);
+            color: white;
+            border: none;
+            border-radius: var(--border-radius);
+            font-size: 16px;
+            cursor: pointer;
+            margin-top: 10px;
+            display: none;
+            transition: var(--transition);
+        }
+
+        #cancel-edit-btn:hover {
+            background-color: #d91a6d;
+        }
+
+        .products-list {
+            background-color: white;
+            padding: 20px;
+            border-radius: var(--border-radius);
+            box-shadow: var(--box-shadow);
+        }
+
+        .products-list h2 {
+            color: var(--primary-color);
+            margin-bottom: 15px;
+            font-size: 1.2rem;
+        }
+
+        .search-bar {
+            margin-bottom: 15px;
+        }
+
+        .search-bar input {
+            width: 100%;
+            padding: 10px 15px;
+            border: 1px solid #ddd;
+            border-radius: var(--border-radius);
+            font-size: 14px;
+            transition: var(--transition);
+        }
+
+        .search-bar input:focus {
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 3px rgba(67, 97, 238, 0.2);
+            outline: none;
+        }
+
+        .product-item {
+            display: flex;
+            flex-direction: column;
+            padding: 15px;
+            border-bottom: 1px solid #eee;
+            gap: 10px;
+            transition: var(--transition);
+        }
+
+        .product-item:hover {
+            background-color: #f9f9f9;
+        }
+
+        @media (min-width: 600px) {
+            .product-item {
+                flex-direction: row;
+                justify-content: space-between;
+                align-items: center;
+            }
+        }
+
+        .product-item:last-child {
+            border-bottom: none;
+        }
+
+        .product-info h3 {
+            color: var(--primary-color);
+            margin-bottom: 5px;
+            font-size: 1rem;
+        }
+
+        .product-info p {
+            color: var(--gray-color);
+            font-size: 0.85rem;
+        }
+
+        .product-actions {
+            display: flex;
+            gap: 10px;
+            margin-top: 10px;
+        }
+
+        @media (min-width: 600px) {
+            .product-actions {
+                margin-top: 0;
+            }
+        }
+
+        .edit-btn, .delete-btn {
+            padding: 8px 15px;
+            border: none;
+            border-radius: var(--border-radius);
+            cursor: pointer;
+            font-size: 0.85rem;
+            white-space: nowrap;
+            transition: var(--transition);
+        }
+
+        .edit-btn {
+            background-color: var(--accent-color);
+            color: white;
+        }
+
+        .edit-btn:hover {
+            background-color: #3a7bc8;
+        }
+
+        .delete-btn {
+            background-color: var(--danger-color);
+            color: white;
+        }
+
+        .delete-btn:hover {
+            background-color: #d91a6d;
+        }
+
+        .loading {
+            text-align: center;
+            padding: 20px;
+            color: var(--gray-color);
+        }
+
+        /* Estilos para la vista previa de imagen */
+        .image-preview-container {
+            margin-top: 10px;
+        }
+
+        .image-preview {
+            max-width: 100%;
+            height: auto;
+            max-height: 200px;
+            border-radius: 4px;
+            border: 1px solid #ddd;
+            display: none;
+        }
+
+        .url-status {
+            margin-top: 5px;
+            font-size: 0.8rem;
+        }
+
+        .valid-url {
+            color: var(--success-color);
+        }
+
+        .invalid-url {
+            color: var(--danger-color);
+        }
+
+        /* Estilos para el enlace de Telegram */
+        .telegram-link {
+            color: #0088cc;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .telegram-link:hover {
+            text-decoration: underline;
+        }
+
+        /* Estilos para el campo de Telegram */
+        .telegram-input-container {
+            position: relative;
+        }
+
+        .telegram-input-container::before {
+            content: "@";
+            position: absolute;
+            left: 10px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #555;
+            font-weight: bold;
+        }
+
+        .telegram-input {
+            padding-left: 20px !important;
+        }
+
+        /* Estilos para el modal de recuperación de contraseña */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .modal-content {
+            background-color: white;
+            border-radius: var(--border-radius);
+            box-shadow: var(--box-shadow);
+            width: 100%;
+            max-width: 450px;
+            padding: 30px;
+            position: relative;
+        }
+
+        .close-modal {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            font-size: 1.5rem;
+            color: var(--gray-color);
+            cursor: pointer;
+            background: none;
+            border: none;
+        }
+
+        .modal-title {
+            margin-bottom: 20px;
+            color: var(--primary-color);
+            text-align: center;
+        }
+
+        /* Estilos para el dashboard */
+        .stats-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .stat-card {
+            background-color: white;
+            border-radius: var(--border-radius);
+            box-shadow: var(--box-shadow);
+            padding: 20px;
+            text-align: center;
+        }
+
+        .stat-card h3 {
+            color: var(--gray-color);
+            font-size: 0.9rem;
+            margin-bottom: 10px;
+            text-transform: uppercase;
+        }
+
+        .stat-card p {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--primary-color);
+        }
+
+        /* Estilos para el enlace de subir imágenes */
+        .upload-info {
+            background-color: #f8f9fa;
+            border-left: 4px solid var(--accent-color);
+            padding: 10px 15px;
+            margin: 15px 0;
+            border-radius: 0 var(--border-radius) var(--border-radius) 0;
+        }
+
+        .upload-info a {
+            color: var(--accent-color);
+            font-weight: 500;
+            text-decoration: none;
+        }
+
+        .upload-info a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <!-- Página de Login -->
+    <div class="auth-container" id="login-container">
+        <div class="auth-card">
+            <div class="auth-header">
+                <h1>Bienvenido</h1>
+                <p>Inicia sesión para gestionar tus productos</p>
+            </div>
+            <div class="auth-body">
+                <div id="login-error" class="alert alert-danger hidden"></div>
+                <form id="login-form">
+                    <div class="form-group">
+                        <label for="login-email">Correo Electrónico</label>
+                        <input type="email" id="login-email" class="form-control" placeholder="tu@email.com" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="login-password">Contraseña</label>
+                        <input type="password" id="login-password" class="form-control" placeholder="••••••••" required>
+                    </div>
+                    <div class="form-group">
+                        <button type="submit" class="btn btn-primary btn-block">Iniciar Sesión</button>
+                    </div>
+                    <div class="divider">o</div>
+                    <div class="form-group">
+                        <button type="button" id="google-login-btn" class="btn btn-google btn-block">
+                            <i class="fab fa-google"></i> Continuar con Google
+                        </button>
+                    </div>
+                </form>
+            </div>
+            <div class="auth-footer">
+                ¿No tienes una cuenta? <a href="#" id="show-register">Regístrate</a><br>
+                <a href="#" id="show-forgot-password">¿Olvidaste tu contraseña?</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Página de Registro -->
+    <div class="auth-container hidden" id="register-container">
+        <div class="auth-card">
+            <div class="auth-header">
+                <h1>Crear Cuenta</h1>
+                <p>Regístrate como vendedor</p>
+            </div>
+            <div class="auth-body">
+                <div id="register-error" class="alert alert-danger hidden"></div>
+                <div id="register-success" class="alert alert-success hidden"></div>
+                <form id="register-form">
+                    <div class="form-group">
+                        <label for="register-name">Nombre Completo</label>
+                        <input type="text" id="register-name" class="form-control" placeholder="Tu nombre" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="register-email">Correo Electrónico</label>
+                        <input type="email" id="register-email" class="form-control" placeholder="tu@email.com" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="register-password">Contraseña</label>
+                        <input type="password" id="register-password" class="form-control" placeholder="••••••••" required minlength="6">
+                    </div>
+                    <div class="form-group">
+                        <label for="register-confirm-password">Confirmar Contraseña</label>
+                        <input type="password" id="register-confirm-password" class="form-control" placeholder="••••••••" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="register-telegram">Usuario de Telegram (opcional)</label>
+                        <div class="telegram-input-container">
+                            <input type="text" id="register-telegram" class="form-control telegram-input" placeholder="nombreusuario">
+                        </div>
+                        <small>Sin el "@", se agregará automáticamente</small>
+                    </div>
+                    <div class="form-group">
+                        <button type="submit" class="btn btn-primary btn-block">Registrarse</button>
+                    </div>
+                </form>
+            </div>
+            <div class="auth-footer">
+                ¿Ya tienes una cuenta? <a href="#" id="show-login">Inicia Sesión</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Página de Recuperación de Contraseña -->
+    <div class="auth-container hidden" id="forgot-password-container">
+        <div class="auth-card">
+            <div class="auth-header">
+                <h1>Recuperar Contraseña</h1>
+                <p>Ingresa tu correo para recibir instrucciones</p>
+            </div>
+            <div class="auth-body">
+                <div id="forgot-error" class="alert alert-danger hidden"></div>
+                <div id="forgot-success" class="alert alert-success hidden"></div>
+                <form id="forgot-password-form">
+                    <div class="form-group">
+                        <label for="forgot-email">Correo Electrónico</label>
+                        <input type="email" id="forgot-email" class="form-control" placeholder="tu@email.com" required>
+                    </div>
+                    <div class="form-group">
+                        <button type="submit" class="btn btn-primary btn-block">Enviar Instrucciones</button>
+                    </div>
+                </form>
+            </div>
+            <div class="auth-footer">
+                <a href="#" id="show-login-from-forgot">Volver al Inicio de Sesión</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal de Recuperación de Contraseña -->
+    <div class="modal hidden" id="reset-password-modal">
+        <div class="modal-content">
+            <button class="close-modal" id="close-reset-modal">&times;</button>
+            <h2 class="modal-title">Restablecer Contraseña</h2>
+            <div id="reset-error" class="alert alert-danger hidden"></div>
+            <form id="reset-password-form">
+                <div class="form-group">
+                    <label for="reset-new-password">Nueva Contraseña</label>
+                    <input type="password" id="reset-new-password" class="form-control" placeholder="••••••••" required minlength="6">
+                </div>
+                <div class="form-group">
+                    <label for="reset-confirm-password">Confirmar Nueva Contraseña</label>
+                    <input type="password" id="reset-confirm-password" class="form-control" placeholder="••••••••" required>
+                </div>
+                <div class="form-group">
+                    <button type="submit" class="btn btn-primary btn-block">Restablecer Contraseña</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Panel de Administración -->
+    <div class="admin-container" id="admin-container">
+        <header>
+            <h1>Mis Productos</h1>
+            <div class="user-info">
+                <div class="user-avatar" id="user-avatar">US</div>
+                <button id="logout-btn">Cerrar Sesión</button>
+            </div>
+        </header>
+
+        <div class="stats-container">
+            <div class="stat-card">
+                <h3>Productos Publicados</h3>
+                <p id="total-products">0</p>
+            </div>
+            <div class="stat-card">
+                <h3>Productos en Stock</h3>
+                <p id="in-stock">0</p>
+            </div>
+            <div class="stat-card">
+                <h3>Productos Agotados</h3>
+                <p id="out-of-stock">0</p>
+            </div>
+        </div>
+
+        <div class="admin-content">
+            <div class="admin-form">
+                <h2 id="form-title">Agregar Nuevo Producto</h2>
+                
+                <!-- Nota informativa para subir imágenes -->
+                <div class="upload-info">
+                    <p><strong>Nota:</strong> Para subir imágenes de tus productos, puedes usar el servicio gratuito <a href="https://postimages.org/" target="_blank">PostImages</a>. Una vez subida la imagen, copia el enlace directo y pégala en el campo de URL de imagen.</p>
+                    <p>Enlace directo: <a href="https://postimg.cc/R3ZTs6C3/7811f155" target="_blank">https://postimg.cc/R3ZTs6C3/7811f155</a></p>
+                </div>
+                
+                <div class="form-group">
+                    <label for="product-name">Nombre del Producto</label>
+                    <input type="text" id="product-name" placeholder="Ej. Teclado Gamer RGB">
+                </div>
+                <div class="form-group">
+                    <label for="product-brand">Marca</label>
+                    <input type="text" id="product-brand" placeholder="Ej. Redragon">
+                </div>
+                <div class="form-group">
+                    <label for="product-description">Descripción (una por línea)</label>
+                    <textarea id="product-description" rows="4" placeholder="Características del producto..."></textarea>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="product-price">Precio (CUP)</label>
+                        <input type="number" id="product-price" placeholder="Ej. 199.90" step="0.01">
+                    </div>
+                    <div class="form-group">
+                        <label for="product-old-price">Precio Anterior (opcional)</label>
+                        <input type="number" id="product-old-price" placeholder="Ej. 249.90" step="0.01">
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="product-category">Categoría</label>
+                        <select id="product-category">
+                            <!-- Las opciones se llenarán dinámicamente desde Firebase -->
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="product-stock">Stock</label>
+                        <input type="number" id="product-stock" placeholder="Ej. 10" value="1">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="product-province">Provincia</label>
+                    <select id="product-province">
+                        <option value="Pinar del Río">Pinar del Río</option>
+                        <option value="Artemisa">Artemisa</option>
+                        <option value="La Habana">La Habana</option>
+                        <option value="Mayabeque">Mayabeque</option>
+                        <option value="Matanzas">Matanzas</option>
+                        <option value="Cienfuegos">Cienfuegos</option>
+                        <option value="Villa Clara">Villa Clara</option>
+                        <option value="Sancti Spíritus">Sancti Spíritus</option>
+                        <option value="Ciego de Ávila" selected>Ciego de Ávila</option>
+                        <option value="Camagüey">Camagüey</option>
+                        <option value="Las Tunas">Las Tunas</option>
+                        <option value="Holguín">Holguín</option>
+                        <option value="Granma">Granma</option>
+                        <option value="Santiago de Cuba">Santiago de Cuba</option>
+                        <option value="Guantánamo">Guantánamo</option>
+                        <option value="Isla de la Juventud">Isla de la Juventud</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="product-image-url">URL de la Imagen del Producto</label>
+                    <input type="url" id="product-image-url" placeholder="Ej. https://ejemplo.com/imagen.jpg">
+                    <div id="url-status" class="url-status"></div>
+                    <div class="image-preview-container">
+                        <img id="image-preview" class="image-preview" src="#" alt="Vista previa de la imagen">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="product-telegram">Usuario de Telegram del Vendedor (opcional)</label>
+                    <div class="telegram-input-container">
+                        <input type="text" id="product-telegram" class="telegram-input" placeholder="nombreusuario">
+                    </div>
+                    <small>Sin el "@", se agregará automáticamente</small>
+                </div>
+                <button id="add-product-btn">Agregar Producto</button>
+                <button id="update-product-btn">Actualizar Producto</button>
+                <button id="cancel-edit-btn">Cancelar Edición</button>
+                <input type="hidden" id="editing-product-id">
+            </div>
+
+            <div class="products-list">
+                <h2>Mis Productos</h2>
+                <div class="search-bar">
+                    <input type="text" id="search-products" placeholder="Buscar mis productos...">
+                </div>
+                <div id="admin-products-list">
+                    <div class="loading">Cargando productos...</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Firebase y scripts de la aplicación -->
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-firestore.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-storage.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    
+    <script>
+        // Configuración de Firebase
+        const firebaseConfig = {
+            apiKey: "AIzaSyAS7sVsIYI1e0yMO-rMfSWun_1ZUvIshLE",
+            authDomain: "tiene-a.firebaseapp.com",
+            databaseURL: "https://tiene-a-default-rtdb.asia-southeast1.firebasedatabase.app",
+            projectId: "tiene-a",
+            storageBucket: "tiene-a.firebasestorage.app",
+            messagingSenderId: "62596148568",
+            appId: "1:62596148568:web:8e5c65cd8116b28f2a492d",
+            measurementId: "G-6RTXY3SHPB"
+        };
+        
+        // Inicializar Firebase
+        firebase.initializeApp(firebaseConfig);
+        const db = firebase.firestore();
+        const auth = firebase.auth();
+        const storage = firebase.storage();
+        
+        // Elementos del DOM para autenticación
+        const loginContainer = document.getElementById('login-container');
+        const registerContainer = document.getElementById('register-container');
+        const forgotPasswordContainer = document.getElementById('forgot-password-container');
+        const adminContainer = document.getElementById('admin-container');
+        
+        const loginForm = document.getElementById('login-form');
+        const registerForm = document.getElementById('register-form');
+        const forgotPasswordForm = document.getElementById('forgot-password-form');
+        const resetPasswordForm = document.getElementById('reset-password-form');
+        
+        const showRegisterLink = document.getElementById('show-register');
+        const showLoginLink = document.getElementById('show-login');
+        const showLoginFromForgotLink = document.getElementById('show-login-from-forgot');
+        const showForgotPasswordLink = document.getElementById('show-forgot-password');
+        
+        const loginError = document.getElementById('login-error');
+        const registerError = document.getElementById('register-error');
+        const registerSuccess = document.getElementById('register-success');
+        const forgotError = document.getElementById('forgot-error');
+        const forgotSuccess = document.getElementById('forgot-success');
+        const resetError = document.getElementById('reset-error');
+        
+        const googleLoginBtn = document.getElementById('google-login-btn');
+        const logoutBtn = document.getElementById('logout-btn');
+        
+        const resetPasswordModal = document.getElementById('reset-password-modal');
+        const closeResetModal = document.getElementById('close-reset-modal');
+        
+        // Elementos del DOM para productos
+        const addProductBtn = document.getElementById('add-product-btn');
+        const updateProductBtn = document.getElementById('update-product-btn');
+        const cancelEditBtn = document.getElementById('cancel-edit-btn');
+        const adminProductsList = document.getElementById('admin-products-list');
+        const searchProductsInput = document.getElementById('search-products');
+        const productImageUrl = document.getElementById('product-image-url');
+        const imagePreview = document.getElementById('image-preview');
+        const urlStatus = document.getElementById('url-status');
+        const formTitle = document.getElementById('form-title');
+        const editingProductId = document.getElementById('editing-product-id');
+        const productCategorySelect = document.getElementById('product-category');
+        const productProvinceSelect = document.getElementById('product-province');
+        const productTelegramInput = document.getElementById('product-telegram');
+        const userAvatar = document.getElementById('user-avatar');
+        
+        // Estadísticas
+        const totalProductsElement = document.getElementById('total-products');
+        const inStockElement = document.getElementById('in-stock');
+        const outOfStockElement = document.getElementById('out-of-stock');
+        
+        // Variables globales
+        let categories = [];
+        let currentUser = null;
+        
+        // Inicializar la aplicación
+        document.addEventListener('DOMContentLoaded', () => {
+            // Configurar eventos de autenticación
+            showRegisterLink.addEventListener('click', (e) => {
+                e.preventDefault();
+                showRegister();
+            });
+            
+            showLoginLink.addEventListener('click', (e) => {
+                e.preventDefault();
+                showLogin();
+            });
+            
+            showLoginFromForgotLink.addEventListener('click', (e) => {
+                e.preventDefault();
+                showLogin();
+            });
+            
+            showForgotPasswordLink.addEventListener('click', (e) => {
+                e.preventDefault();
+                showForgotPassword();
+            });
+            
+            loginForm.addEventListener('submit', (e) => {
+                e.preventDefault();
+                loginUser();
+            });
+            
+            registerForm.addEventListener('submit', (e) => {
+                e.preventDefault();
+                registerUser();
+            });
+            
+            forgotPasswordForm.addEventListener('submit', (e) => {
+                e.preventDefault();
+                sendPasswordResetEmail();
+            });
+            
+            resetPasswordForm.addEventListener('submit', (e) => {
+                e.preventDefault();
+                resetPassword();
+            });
+            
+            googleLoginBtn.addEventListener('click', loginWithGoogle);
+            logoutBtn.addEventListener('click', logoutUser);
+            closeResetModal.addEventListener('click', closeModal);
+            
+            // Configurar eventos de productos
+            addProductBtn.addEventListener('click', addProduct);
+            updateProductBtn.addEventListener('click', updateProduct);
+            cancelEditBtn.addEventListener('click', cancelEdit);
+            searchProductsInput.addEventListener('input', searchProducts);
+            
+            // Validar URL de imagen en tiempo real
+            productImageUrl.addEventListener('input', validateImageUrl);
+            
+            // Verificar estado de autenticación
+            auth.onAuthStateChanged(user => {
+                if (user) {
+                    // Usuario autenticado
+                    currentUser = user;
+                    showAdminPanel();
+                    loadUserData(user.uid);
+                } else {
+                    // No autenticado
+                    currentUser = null;
+                    showLogin();
+                }
+            });
+            
+            // Manejar recuperación de contraseña desde URL
+            handlePasswordReset();
+        });
+        
+        // Mostrar página de login
+        function showLogin() {
+            loginContainer.classList.remove('hidden');
+            registerContainer.classList.add('hidden');
+            forgotPasswordContainer.classList.add('hidden');
+            adminContainer.style.display = 'none';
+            loginError.classList.add('hidden');
+        }
+        
+        // Mostrar página de registro
+        function showRegister() {
+            loginContainer.classList.add('hidden');
+            registerContainer.classList.remove('hidden');
+            forgotPasswordContainer.classList.add('hidden');
+            adminContainer.style.display = 'none';
+            registerError.classList.add('hidden');
+            registerSuccess.classList.add('hidden');
+        }
+        
+        // Mostrar página de recuperación de contraseña
+        function showForgotPassword() {
+            loginContainer.classList.add('hidden');
+            registerContainer.classList.add('hidden');
+            forgotPasswordContainer.classList.remove('hidden');
+            adminContainer.style.display = 'none';
+            forgotError.classList.add('hidden');
+            forgotSuccess.classList.add('hidden');
+        }
+        
+        // Mostrar panel de administración
+        function showAdminPanel() {
+            loginContainer.classList.add('hidden');
+            registerContainer.classList.add('hidden');
+            forgotPasswordContainer.classList.add('hidden');
+            adminContainer.style.display = 'block';
+            
+            // Cargar categorías y productos
+            loadCategories().then(() => {
+                loadProducts();
+            });
+        }
+        
+        // Mostrar modal
+        function showModal(modal) {
+            modal.classList.remove('hidden');
+        }
+        
+        // Cerrar modal
+        function closeModal() {
+            resetPasswordModal.classList.add('hidden');
+        }
+        
+        // Iniciar sesión con email y contraseña
+        function loginUser() {
+            const email = document.getElementById('login-email').value;
+            const password = document.getElementById('login-password').value;
+            
+            auth.signInWithEmailAndPassword(email, password)
+                .then((userCredential) => {
+                    // Inicio de sesión exitoso
+                    loginError.classList.add('hidden');
+                })
+                .catch((error) => {
+                    // Error en inicio de sesión
+                    loginError.textContent = getAuthErrorMessage(error.code);
+                    loginError.classList.remove('hidden');
+                });
+        }
+        
+        // Iniciar sesión con Google
+        function loginWithGoogle() {
+            const provider = new firebase.auth.GoogleAuthProvider();
+            
+            auth.signInWithPopup(provider)
+                .then((result) => {
+                    // Verificar si es un nuevo usuario
+                    if (result.additionalUserInfo.isNewUser) {
+                        // Guardar información adicional del usuario
+                        const user = result.user;
+                        const userData = {
+                            name: user.displayName || 'Usuario Google',
+                            email: user.email,
+                            createdAt: firebase.firestore.FieldValue.serverTimestamp(),
+                            isSeller: true
+                        };
+                        
+                        // Guardar en Firestore
+                        db.collection('users').doc(user.uid).set(userData)
+                            .then(() => {
+                                console.log('Nuevo usuario registrado con Google');
+                            })
+                            .catch(error => {
+                                console.error('Error al guardar usuario:', error);
+                            });
+                    }
+                })
+                .catch((error) => {
+                    loginError.textContent = getAuthErrorMessage(error.code);
+                    loginError.classList.remove('hidden');
+                });
+        }
+        
+        // Registrar nuevo usuario
+        function registerUser() {
+            const name = document.getElementById('register-name').value;
+            const email = document.getElementById('register-email').value;
+            const password = document.getElementById('register-password').value;
+            const confirmPassword = document.getElementById('register-confirm-password').value;
+            const telegram = document.getElementById('register-telegram').value.trim().replace('@', '');
+            
+            // Validar contraseñas coincidan
+            if (password !== confirmPassword) {
+                registerError.textContent = 'Las contraseñas no coinciden';
+                registerError.classList.remove('hidden');
+                return;
+            }
+            
+            // Crear usuario en Firebase Auth
+            auth.createUserWithEmailAndPassword(email, password)
+                .then((userCredential) => {
+                    // Usuario creado, ahora guardar información adicional
+                    const user = userCredential.user;
+                    const userData = {
+                        name: name,
+                        email: email,
+                        telegram: telegram || null,
+                        createdAt: firebase.firestore.FieldValue.serverTimestamp(),
+                        isSeller: true
+                    };
+                    
+                    // Guardar en Firestore
+                    return db.collection('users').doc(user.uid).set(userData);
+                })
+                .then(() => {
+                    // Registro exitoso
+                    registerError.classList.add('hidden');
+                    registerSuccess.textContent = '¡Registro exitoso! Bienvenido/a.';
+                    registerSuccess.classList.remove('hidden');
+                    
+                    // Limpiar formulario
+                    registerForm.reset();
+                    
+                    // Mostrar mensaje de éxito con SweetAlert
+                    Swal.fire({
+                        title: '¡Registro exitoso!',
+                        text: 'Tu cuenta ha sido creada correctamente.',
+                        icon: 'success',
+                        confirmButtonText: 'Aceptar'
+                    }).then(() => {
+                        // Redirigir al panel de administración
+                        showAdminPanel();
+                    });
+                })
+                .catch((error) => {
+                    registerError.textContent = getAuthErrorMessage(error.code);
+                    registerError.classList.remove('hidden');
+                });
+        }
+        
+        // Enviar correo de recuperación de contraseña
+        function sendPasswordResetEmail() {
+            const email = document.getElementById('forgot-email').value;
+            
+            auth.sendPasswordResetEmail(email)
+                .then(() => {
+                    forgotError.classList.add('hidden');
+                    forgotSuccess.textContent = 'Se ha enviado un correo con instrucciones para restablecer tu contraseña.';
+                    forgotSuccess.classList.remove('hidden');
+                    forgotPasswordForm.reset();
+                })
+                .catch((error) => {
+                    forgotSuccess.classList.add('hidden');
+                    forgotError.textContent = getAuthErrorMessage(error.code);
+                    forgotError.classList.remove('hidden');
+                });
+        }
+        
+        // Restablecer contraseña
+        function resetPassword() {
+            const newPassword = document.getElementById('reset-new-password').value;
+            const confirmPassword = document.getElementById('reset-confirm-password').value;
+            
+            // Obtener el código de la URL
+            const urlParams = new URLSearchParams(window.location.search);
+            const actionCode = urlParams.get('oobCode');
+            
+            if (!actionCode) {
+                resetError.textContent = 'Código de restablecimiento no válido';
+                resetError.classList.remove('hidden');
+                return;
+            }
+            
+            if (newPassword !== confirmPassword) {
+                resetError.textContent = 'Las contraseñas no coinciden';
+                resetError.classList.remove('hidden');
+                return;
+            }
+            
+            auth.confirmPasswordReset(actionCode, newPassword)
+                .then(() => {
+                    // Contraseña restablecida con éxito
+                    Swal.fire({
+                        title: '¡Contraseña restablecida!',
+                        text: 'Tu contraseña ha sido actualizada correctamente.',
+                        icon: 'success',
+                        confirmButtonText: 'Aceptar'
+                    }).then(() => {
+                        // Limpiar parámetros de la URL
+                        window.history.replaceState({}, document.title, window.location.pathname);
+                        closeModal();
+                        showLogin();
+                    });
+                })
+                .catch((error) => {
+                    resetError.textContent = getAuthErrorMessage(error.code);
+                    resetError.classList.remove('hidden');
+                });
+        }
+        
+        // Manejar recuperación de contraseña desde URL
+        function handlePasswordReset() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const mode = urlParams.get('mode');
+            const actionCode = urlParams.get('oobCode');
+            
+            if (mode === 'resetPassword' && actionCode) {
+                // Mostrar modal de restablecimiento de contraseña
+                showModal(resetPasswordModal);
+                
+                // Limpiar parámetros de la URL
+                window.history.replaceState({}, document.title, window.location.pathname);
+            }
+        }
+        
+        // Cerrar sesión
+        function logoutUser() {
+            auth.signOut()
+                .then(() => {
+                    // Limpiar datos de la sesión
+                    currentUser = null;
+                    showLogin();
+                })
+                .catch((error) => {
+                    console.error('Error al cerrar sesión:', error);
+                });
+        }
+        
+        // Cargar datos del usuario
+        function loadUserData(userId) {
+            db.collection('users').doc(userId).get()
+                .then(doc => {
+                    if (doc.exists) {
+                        const userData = doc.data();
+                        
+                        // Mostrar avatar con iniciales
+                        if (userData.name) {
+                            const initials = userData.name.split(' ').map(n => n[0]).join('').toUpperCase();
+                            userAvatar.textContent = initials.substring(0, 2);
+                        }
+                        
+                        // Si el usuario no es vendedor, cerrar sesión
+                        if (!userData.isSeller) {
+                            Swal.fire({
+                                title: 'Acceso denegado',
+                                text: 'No tienes permisos para acceder al panel de vendedores.',
+                                icon: 'error',
+                                confirmButtonText: 'Aceptar'
+                            }).then(() => {
+                                logoutUser();
+                            });
+                        }
+                    }
+                })
+                .catch(error => {
+                    console.error('Error al cargar datos del usuario:', error);
+                });
+        }
+        
+        // Función para cargar categorías desde Firebase
+        function loadCategories() {
+            return db.collection("categories").orderBy("name").get()
+                .then(querySnapshot => {
+                    categories = [];
+                    productCategorySelect.innerHTML = '<option value="">Seleccione una categoría</option>';
+                    
+                    querySnapshot.forEach(doc => {
+                        const category = { id: doc.id, ...doc.data() };
+                        categories.push(category);
+                        
+                        // Agregar opción al select de categorías en productos
+                        const option = document.createElement('option');
+                        option.value = category.id;
+                        option.textContent = category.name;
+                        productCategorySelect.appendChild(option);
+                    });
+                    
+                    return categories;
+                })
+                .catch(error => {
+                    console.error("Error al cargar categorías:", error);
+                    return [];
+                });
+        }
+        
+        // Función para validar URL de imagen
+        function validateImageUrl() {
+            const url = productImageUrl.value.trim();
+            
+            if (url === '') {
+                urlStatus.textContent = '';
+                urlStatus.className = 'url-status';
+                imagePreview.style.display = 'none';
+                return;
+            }
+            
+            try {
+                new URL(url);
+                
+                const imageExtensions = ['.jpg', '.jpeg', '.png', '.gif', '.webp'];
+                const isImageUrl = imageExtensions.some(ext => url.toLowerCase().endsWith(ext));
+                
+                if (isImageUrl) {
+                    urlStatus.textContent = 'URL válida';
+                    urlStatus.className = 'url-status valid-url';
+                    
+                    imagePreview.src = url;
+                    imagePreview.style.display = 'block';
+                    imagePreview.onerror = () => {
+                        urlStatus.textContent = 'La URL es válida pero la imagen no se puede cargar';
+                        urlStatus.className = 'url-status invalid-url';
+                        imagePreview.style.display = 'none';
+                    };
+                } else {
+                    urlStatus.textContent = 'La URL no parece ser una imagen (debe terminar en .jpg, .png, etc.)';
+                    urlStatus.className = 'url-status invalid-url';
+                    imagePreview.style.display = 'none';
+                }
+            } catch (e) {
+                urlStatus.textContent = 'URL no válida';
+                urlStatus.className = 'url-status invalid-url';
+                imagePreview.style.display = 'none';
+            }
+        }
+        
+        // Función para cargar productos del vendedor actual
+        function loadProducts() {
+            if (!currentUser) return;
+            
+            adminProductsList.innerHTML = '<div class="loading">Cargando productos...</div>';
+            
+            // Contar estadísticas
+            let totalProducts = 0;
+            let inStock = 0;
+            let outOfStock = 0;
+        
+            db.collection("products")
+                .where("sellerId", "==", currentUser.uid)
+                .orderBy("createdAt", "desc")
+                .get()
+                .then(querySnapshot => {
+                    adminProductsList.innerHTML = '';
+        
+                    if (querySnapshot.empty) {
+                        adminProductsList.innerHTML = '<div class="empty">No hay productos</div>';
+                        updateStats(0, 0, 0);
+                        return;
+                    }
+        
+                    querySnapshot.forEach(doc => {
+                        const product = { id: doc.id, ...doc.data() };
+                        addProductToAdminList(product);
+                        
+                        // Actualizar estadísticas
+                        totalProducts++;
+                        if (product.stock > 0) {
+                            inStock++;
+                        } else {
+                            outOfStock++;
+                        }
+                    });
+                    
+                    updateStats(totalProducts, inStock, outOfStock);
+                })
+                .catch(error => {
+                    console.error("Error al cargar productos:", error);
+                    adminProductsList.innerHTML = '<div class="error">Error al cargar productos</div>';
+                });
+        }
+        
+        // Actualizar estadísticas
+        function updateStats(total, inStock, outOfStock) {
+            totalProductsElement.textContent = total;
+            inStockElement.textContent = inStock;
+            outOfStockElement.textContent = outOfStock;
+        }
+        
+        // Función para agregar producto a la lista de admin
+        function addProductToAdminList(product) {
+            const productElement = document.createElement('div');
+            productElement.className = 'product-item';
+            productElement.dataset.id = product.id;
+        
+            // Obtener nombre de categoría
+            const category = categories.find(cat => cat.id === product.category);
+            const categoryName = category ? category.name : 'Sin categoría';
+            
+            // Mostrar usuario de Telegram si está disponible
+            const telegramInfo = product.telegram ? `
+                <p>Contactar vendedor: 
+                    <a href="https://t.me/${product.telegram.replace('@', '')}" target="_blank" class="telegram-link">
+                        <i class="fab fa-telegram"></i> @${product.telegram.replace('@', '')}
+                    </a>
+                </p>
+            ` : '';
+        
+            productElement.innerHTML = `
+                <div class="product-info">
+                    <h3>${product.name}</h3>
+                    <p>${product.brand || 'Sin marca'} - CUP ${product.price.toFixed(2)}</p>
+                    <p>Stock: ${product.stock || 0} | Categoría: ${categoryName}</p>
+                    <p>Provincia: ${product.province || 'Ciego de Ávila'}</p>
+                    ${telegramInfo}
+                    ${product.image ? `<img src="${product.image}" alt="${product.name}" style="max-width: 100px; max-height: 100px; margin-top: 10px;">` : ''}
+                </div>
+                <div class="product-actions">
+                    <button class="edit-btn" data-id="${product.id}">Editar</button>
+                    <button class="delete-btn" data-id="${product.id}">Eliminar</button>
+                </div>
+            `;
+        
+            adminProductsList.appendChild(productElement);
+        
+            // Configurar eventos para los botones
+            productElement.querySelector('.delete-btn').addEventListener('click', (e) => {
+                const productId = e.target.dataset.id;
+                deleteProduct(productId);
+            });
+        
+            productElement.querySelector('.edit-btn').addEventListener('click', (e) => {
+                const productId = e.target.dataset.id;
+                startEditProduct(productId);
+            });
+        }
+        
+        // Función para agregar un nuevo producto (versión corregida)
+        function addProduct() {
+            if (!currentUser) return;
+            
+            const name = document.getElementById('product-name').value;
+            const brand = document.getElementById('product-brand').value;
+            const description = document.getElementById('product-description').value;
+            const price = parseFloat(document.getElementById('product-price').value);
+            const oldPrice = parseFloat(document.getElementById('product-old-price').value) || null;
+            const category = document.getElementById('product-category').value;
+            const province = document.getElementById('product-province').value;
+            const image = productImageUrl.value.trim();
+            const stock = parseInt(document.getElementById('product-stock').value) || 0;
+            const telegram = productTelegramInput.value.trim().replace('@', '');
+
+            if (!name || !price) {
+                Swal.fire({
+                    title: 'Campos requeridos',
+                    text: 'Nombre y precio son requeridos',
+                    icon: 'warning',
+                    confirmButtonText: 'Aceptar'
+                });
+                return;
+            }
+
+            if (!image) {
+                Swal.fire({
+                    title: 'Imagen requerida',
+                    text: 'Por favor ingresa una URL de imagen válida',
+                    icon: 'warning',
+                    confirmButtonText: 'Aceptar'
+                });
+                return;
+            }
+
+            const features = description.split('\n').filter(line => line.trim() !== '');
+
+            // Mostrar loader mientras se procesa
+            Swal.fire({
+                title: 'Publicando producto',
+                html: 'Por favor espera...',
+                allowOutsideClick: false,
+                didOpen: () => {
+                    Swal.showLoading();
+                }
+            });
+
+            // Crear el producto en Firestore
+            db.collection("products").add({
+                name,
+                brand,
+                description: features.join(', '),
+                price,
+                oldPrice,
+                category,
+                province,
+                image,
+                stock,
+                telegram: telegram || null,
+                features,
+                sellerId: currentUser.uid,
+                createdAt: firebase.firestore.FieldValue.serverTimestamp()
+            })
+            .then((docRef) => {
+                // Obtener el producto recién creado para mostrarlo
+                return docRef.get();
+            })
+            .then((doc) => {
+                if (doc.exists) {
+                    const newProduct = { id: doc.id, ...doc.data() };
+                    
+                    // Cerrar el loader
+                    Swal.close();
+                    
+                    // Mostrar mensaje de éxito
+                    Swal.fire({
+                        title: '¡Éxito!',
+                        text: 'Producto publicado correctamente',
+                        icon: 'success',
+                        confirmButtonText: 'Aceptar'
+                    });
+                    
+                    // Resetear el formulario
+                    resetForm();
+                    
+                    // Agregar el nuevo producto a la lista (sin recargar todos)
+                    addProductToAdminList(newProduct);
+                    
+                    // Actualizar estadísticas
+                    updateStats(
+                        parseInt(totalProductsElement.textContent) + 1,
+                        newProduct.stock > 0 ? parseInt(inStockElement.textContent) + 1 : parseInt(inStockElement.textContent),
+                        newProduct.stock <= 0 ? parseInt(outOfStockElement.textContent) + 1 : parseInt(outOfStockElement.textContent)
+                    );
+                }
+            })
+            .catch(error => {
+                console.error("Error al agregar producto:", error);
+                Swal.fire({
+                    title: 'Error',
+                    text: 'No se pudo publicar el producto: ' + error.message,
+                    icon: 'error',
+                    confirmButtonText: 'Aceptar'
+                });
+            });
+        }
+        
+        // Función para iniciar la edición de un producto
+        function startEditProduct(productId) {
+            db.collection("products").doc(productId).get()
+                .then(doc => {
+                    if (doc.exists) {
+                        const product = doc.data();
+                        
+                        // Verificar que el producto pertenezca al vendedor actual
+                        if (product.sellerId !== currentUser.uid) {
+                            Swal.fire({
+                                title: 'Acceso denegado',
+                                text: 'No puedes editar productos de otros vendedores',
+                                icon: 'error',
+                                confirmButtonText: 'Aceptar'
+                            });
+                            return;
+                        }
+                        
+                        // Llenar el formulario con los datos del producto
+                        document.getElementById('product-name').value = product.name;
+                        document.getElementById('product-brand').value = product.brand || '';
+                        document.getElementById('product-description').value = product.features?.join('\n') || product.description || '';
+                        document.getElementById('product-price').value = product.price;
+                        document.getElementById('product-old-price').value = product.oldPrice || '';
+                        document.getElementById('product-category').value = product.category || '';
+                        document.getElementById('product-province').value = product.province || 'Ciego de Ávila';
+                        document.getElementById('product-stock').value = product.stock || 1;
+                        productImageUrl.value = product.image || '';
+                        productTelegramInput.value = product.telegram || '';
+                        
+                        // Validar y mostrar la imagen
+                        validateImageUrl();
+                        
+                        // Cambiar el estado del formulario a modo edición
+                        editingProductId.value = productId;
+                        formTitle.textContent = 'Editar Producto';
+                        addProductBtn.style.display = 'none';
+                        updateProductBtn.style.display = 'block';
+                        cancelEditBtn.style.display = 'block';
+                        
+                        // Desplazarse al formulario
+                        document.querySelector('.admin-form').scrollIntoView({ behavior: 'smooth' });
+                    } else {
+                        Swal.fire({
+                            title: 'Error',
+                            text: 'Producto no encontrado',
+                            icon: 'error',
+                            confirmButtonText: 'Aceptar'
+                        });
+                    }
+                })
+                .catch(error => {
+                    console.error("Error al obtener producto:", error);
+                    Swal.fire({
+                        title: 'Error',
+                        text: 'No se pudo cargar el producto para edición',
+                        icon: 'error',
+                        confirmButtonText: 'Aceptar'
+                    });
+                });
+        }
+        
+        // Función para actualizar un producto (versión corregida)
+        function updateProduct() {
+            const productId = editingProductId.value;
+            if (!productId || !currentUser) return;
+            
+            const name = document.getElementById('product-name').value;
+            const brand = document.getElementById('product-brand').value;
+            const description = document.getElementById('product-description').value;
+            const price = parseFloat(document.getElementById('product-price').value);
+            const oldPrice = parseFloat(document.getElementById('product-old-price').value) || null;
+            const category = document.getElementById('product-category').value;
+            const province = document.getElementById('product-province').value;
+            const image = productImageUrl.value.trim();
+            const stock = parseInt(document.getElementById('product-stock').value) || 0;
+            const telegram = productTelegramInput.value.trim().replace('@', '');
+
+            if (!name || !price) {
+                Swal.fire({
+                    title: 'Campos requeridos',
+                    text: 'Nombre y precio son requeridos',
+                    icon: 'warning',
+                    confirmButtonText: 'Aceptar'
+                });
+                return;
+            }
+
+            if (!image) {
+                Swal.fire({
+                    title: 'Imagen requerida',
+                    text: 'Por favor ingresa una URL de imagen válida',
+                    icon: 'warning',
+                    confirmButtonText: 'Aceptar'
+                });
+                return;
+            }
+
+            const features = description.split('\n').filter(line => line.trim() !== '');
+
+            // Mostrar loader mientras se procesa
+            Swal.fire({
+                title: 'Actualizando producto',
+                html: 'Por favor espera...',
+                allowOutsideClick: false,
+                didOpen: () => {
+                    Swal.showLoading();
+                }
+            });
+
+            // Actualizar el producto en Firestore
+            db.collection("products").doc(productId).update({
+                name,
+                brand,
+                description: features.join(', '),
+                price,
+                oldPrice,
+                category,
+                province,
+                image,
+                stock,
+                telegram: telegram || null,
+                features,
+                updatedAt: firebase.firestore.FieldValue.serverTimestamp()
+            })
+            .then(() => {
+                // Obtener el producto actualizado
+                return db.collection("products").doc(productId).get();
+            })
+            .then((doc) => {
+                if (doc.exists) {
+                    const updatedProduct = { id: doc.id, ...doc.data() };
+                    
+                    // Cerrar el loader
+                    Swal.close();
+                    
+                    // Mostrar mensaje de éxito
+                    Swal.fire({
+                        title: '¡Éxito!',
+                        text: 'Producto actualizado correctamente',
+                        icon: 'success',
+                        confirmButtonText: 'Aceptar'
+                    });
+                    
+                    // Resetear el formulario
+                    resetForm();
+                    
+                    // Actualizar el producto en la lista (sin recargar todos)
+                    const productElement = document.querySelector(`.product-item[data-id="${productId}"]`);
+                    if (productElement) {
+                        productElement.remove();
+                    }
+                    addProductToAdminList(updatedProduct);
+                    
+                    // Actualizar estadísticas (necesitaríamos recargar los conteos)
+                    loadProducts(); // Recargamos todos para asegurar estadísticas correctas
+                }
+            })
+            .catch(error => {
+                console.error("Error al actualizar producto:", error);
+                Swal.fire({
+                    title: 'Error',
+                    text: 'No se pudo actualizar el producto: ' + error.message,
+                    icon: 'error',
+                    confirmButtonText: 'Aceptar'
+                });
+            });
+        }
+        
+        // Función para cancelar la edición
+        function cancelEdit() {
+            resetForm();
+        }
+        
+        // Función para resetear el formulario
+        function resetForm() {
+            document.getElementById('product-name').value = '';
+            document.getElementById('product-brand').value = '';
+            document.getElementById('product-description').value = '';
+            document.getElementById('product-price').value = '';
+            document.getElementById('product-old-price').value = '';
+            document.getElementById('product-stock').value = '1';
+            document.getElementById('product-category').value = '';
+            document.getElementById('product-province').value = 'Ciego de Ávila';
+            productImageUrl.value = '';
+            productTelegramInput.value = '';
+            urlStatus.textContent = '';
+            urlStatus.className = 'url-status';
+            imagePreview.style.display = 'none';
+            editingProductId.value = '';
+            
+            // Restaurar estado del formulario
+            formTitle.textContent = 'Agregar Nuevo Producto';
+            addProductBtn.style.display = 'block';
+            updateProductBtn.style.display = 'none';
+            cancelEditBtn.style.display = 'none';
+        }
+        
+        // Función para eliminar producto
+        function deleteProduct(productId) {
+            if (!currentUser) return;
+            
+            Swal.fire({
+                title: '¿Estás seguro?',
+                text: "¡No podrás revertir esta acción!",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Sí, eliminar',
+                cancelButtonText: 'Cancelar'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    // Primero verificar que el producto pertenezca al usuario actual
+                    db.collection("products").doc(productId).get()
+                        .then(doc => {
+                            if (doc.exists && doc.data().sellerId === currentUser.uid) {
+                                // Eliminar el producto
+                                return db.collection("products").doc(productId).delete();
+                            } else {
+                                throw new Error("No tienes permiso para eliminar este producto");
+                            }
+                        })
+                        .then(() => {
+                            Swal.fire(
+                                '¡Eliminado!',
+                                'El producto ha sido eliminado.',
+                                'success'
+                            );
+                            loadProducts();
+                        })
+                        .catch(error => {
+                            console.error("Error al eliminar producto:", error);
+                            Swal.fire(
+                                'Error',
+                                error.message || 'No se pudo eliminar el producto',
+                                'error'
+                            );
+                        });
+                }
+            });
+        }
+        
+        // Función para buscar productos
+        function searchProducts() {
+            const searchTerm = searchProductsInput.value.toLowerCase();
+            
+            if (searchTerm === '') {
+                loadProducts();
+                return;
+            }
+        
+            adminProductsList.innerHTML = '<div class="loading">Buscando productos...</div>';
+        
+            db.collection("products")
+                .where("sellerId", "==", currentUser.uid)
+                .orderBy("name")
+                .startAt(searchTerm)
+                .endAt(searchTerm + '\uf8ff')
+                .get()
+                .then(querySnapshot => {
+                    adminProductsList.innerHTML = '';
+        
+                    if (querySnapshot.empty) {
+                        adminProductsList.innerHTML = '<div class="empty">No se encontraron productos</div>';
+                        return;
+                    }
+        
+                    querySnapshot.forEach(doc => {
+                        const product = { id: doc.id, ...doc.data() };
+                        addProductToAdminList(product);
+                    });
+                })
+                .catch(error => {
+                    console.error("Error al buscar productos:", error);
+                    adminProductsList.innerHTML = '<div class="error">Error al buscar productos</div>';
+                });
+        }
+        
+        // Obtener mensaje de error legible
+        function getAuthErrorMessage(errorCode) {
+            const messages = {
+                'auth/invalid-email': 'El correo electrónico no es válido',
+                'auth/user-disabled': 'Esta cuenta ha sido deshabilitada',
+                'auth/user-not-found': 'No existe una cuenta con este correo',
+                'auth/wrong-password': 'Contraseña incorrecta',
+                'auth/email-already-in-use': 'Este correo ya está registrado',
+                'auth/operation-not-allowed': 'Operación no permitida',
+                'auth/weak-password': 'La contraseña debe tener al menos 6 caracteres',
+                'auth/expired-action-code': 'El código de recuperación ha expirado',
+                'auth/invalid-action-code': 'El código de recuperación no es válido',
+                'auth/too-many-requests': 'Demasiados intentos. Por favor intenta más tarde.'
+            };
+            
+            return messages[errorCode] || 'Ocurrió un error. Por favor intenta nuevamente.';
+        }
+    </script>
+</body>
+</html>
